@@ -6,7 +6,7 @@ import me.archdev.restapi.http.HttpService
 import me.archdev.restapi.models.UserEntity
 import me.archdev.restapi.services.{AuthService, UsersService}
 import me.archdev.restapi.utils.DatabaseService
-import me.archdev.utils.InMemoryPostgresStorage._
+import me.archdev.utils.InMemoryH2Storage._
 import org.scalatest._
 
 import scala.concurrent.duration._
@@ -14,8 +14,6 @@ import scala.concurrent.{Await, Future}
 import scala.util.Random
 
 trait BaseServiceTest extends WordSpec with Matchers with ScalatestRouteTest with CirceSupport {
-
-  dbProcess.getProcessId
 
   private val databaseService = new DatabaseService(jdbcUrl, dbUser, dbPassword)
 

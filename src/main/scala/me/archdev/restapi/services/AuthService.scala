@@ -33,6 +33,8 @@ class AuthService(val databaseService: DatabaseService)(usersService: UsersServi
       user <- users.filter(_.id === token.userId)
     } yield user).result.headOption)
 
-  def createToken(user: UserEntity): Future[TokenEntity] = db.run(tokens returning tokens += TokenEntity(userId = user.id))
+  def createToken(user: UserEntity): Future[TokenEntity] =
+    db.run(tokens returning tokens.map(_.id) += TokenEntity(userId = user.id))
+      .flatMap(id => db.run(tokens.filter(_.id === id).result).map(_.head))
 
 }
